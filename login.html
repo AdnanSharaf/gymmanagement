@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        h2{
+            text-align: center;
+        }
+
+        
+        body {
+           
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Fill the viewport height */
+            margin: 0;
+            background-color: #f0f8ff; /* A softer background color */
+        }
+        .container {
+            width: 400px; /* Fixed width for the form */
+            padding: 40px; /* Added padding for spacing */
+            background-color: transparent;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        input {
+            width: 100%; /* Make inputs full width */
+            padding: 10px; /* Padding for inputs */
+            margin: 10px 0; /* Margin for spacing */
+            border: 1px solid #ccc; /* Border for inputs */
+            border-radius: 4px; /* Rounded corners for inputs */
+        }
+        input[type="submit"] {
+            background-color: #4CAF50; /* Green background for the button */
+            color: white; /* White text */
+            border: none; /* No border */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        ul {
+            color: red; /* Error message color */
+            list-style-type: none; /* Remove bullet points */
+            padding: 0; /* Remove padding */
+        }
+        form > input{
+            border-radius: 20px;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <center><h1>Gym Management System</h1></center>
+  
+    <hr><br><br>
+    <center><div class="container">
+        <h2>Login</h2>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required aria-label="Username">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required aria-label="Password">
+            <input type="submit" value="Login">
+        </form></center>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
