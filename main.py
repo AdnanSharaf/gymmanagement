@@ -18,7 +18,6 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 
 app = Flask(__name__)
-
 app.secret_key = 'your_secret_key'  # Added secret key for session management
 login_manager = LoginManager()        # Added LoginManager for handling user sessions
 login_manager.init_app(app)
@@ -69,9 +68,7 @@ def index():
 def members():
     cursor.execute("SELECT * FROM Members")
     members_data = cursor.fetchall()
-    print(members_data)
     return render_template('members.html', members_data=members_data)
-
 
 @app.route('/insert_member', methods=['POST'])
 def insert_member():
@@ -89,13 +86,11 @@ def insert_member():
         db.commit()
         return redirect(url_for('members'))
 
-
 @app.route('/trainers')
 def trainers():
     cursor.execute("SELECT * FROM Trainers")
     trainers_data = cursor.fetchall()
     return render_template('trainers.html', trainers_data=trainers_data)
-
 
 @app.route('/insert_trainer', methods=['POST'])
 def insert_trainer():
@@ -104,8 +99,8 @@ def insert_trainer():
         speciality = request.form['speciality']
         phone = request.form['Phone']
 
-        sql = "INSERT INTO Trainers (name, speciality,Contact_number) VALUES (%s, %s, %s)"
-        values = (name, speciality,phone)
+        sql = "INSERT INTO Trainers (name, speciality, Contact_number) VALUES (%s, %s, %s)"
+        values = (name, speciality, phone)
 
         cursor.execute(sql, values)
         db.commit()
@@ -116,7 +111,6 @@ def classes():
     cursor.execute("SELECT * FROM Classes")
     classes_data = cursor.fetchall()
     return render_template('classes.html', classes_data=classes_data)
-
 
 @app.route('/insert_class', methods=['POST'])
 def insert_class():
@@ -132,13 +126,11 @@ def insert_class():
         db.commit()
         return redirect(url_for('classes'))
 
-
 @app.route('/payments')
 def payments():
     cursor.execute("SELECT * FROM Payments")
     payments_data = cursor.fetchall()
     return render_template('payments.html', payments_data=payments_data)
-
 
 @app.route('/insert_payment', methods=['POST'])
 def insert_payment():
@@ -154,13 +146,22 @@ def insert_payment():
         db.commit()
         return redirect(url_for('payments'))
 
+# Public view for classes and trainers
+@app.route('/public')
+def public_view():
+    # Fetch classes and trainers without needing authentication
+    cursor.execute("SELECT * FROM Classes")
+    classes_data = cursor.fetchall()
 
+    cursor.execute("SELECT * FROM Trainers")
+    trainers_data = cursor.fetchall()
+
+    return render_template('public_view.html', classes=classes_data, trainers=trainers_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 # Close the database connection
-
 @app.teardown_appcontext
 def close_db(error):
     if db.is_connected():
